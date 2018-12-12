@@ -1,29 +1,31 @@
-;(function(){
-
+;(function () {
     const formulario = document.querySelector('.formNovoCartao');
+    const textCartao = document.querySelector('.formNovoCartao-conteudo');
 
-    formulario.addEventListener('submit', function(event){
+    formulario.addEventListener('submit',function (event) {
         event.preventDefault();
 
-        const textarea = document.querySelector('.formNovoCartao-conteudo')
-
-        if (textarea.value.trim()){
-            console.log(textarea.value);
-        } else {
-
-            const mensagem = document.createElement('p');
-            mensagem.textContent = 'Digite alguma coisa!'
-            mensagem.classList.add('formNovoCartao-msg')
-
-            // this.insertBefore(mensagem, textarea);
-
-            textarea.insertAdjacentElement('afterend', mensagem)
-            mensagem.addEventListener('animationend', function(event){
-                event.target.remove()
-            })
+        if(textCartao.value.trim()){
+            let dadosCartao = {
+                conteudo: textCartao.value.trim(),
+            }
+            criaCartaoInsereMural(dadosCartao);
+            formulario.reset();
+            textCartao.focus();
+        }
+        else{
+            const temMsg = formulario.querySelector('.formNovoCartao-msg');
+            if(!temMsg){
+                const mensagem = document.createElement('p');
+                mensagem.classList.add('formNovoCartao-msg');
+                mensagem.textContent = 'Você precisa digitar algo';
+                //this.insertBefore(mensagem,textCartao);
+                textCartao.insertAdjacentElement('afterend',mensagem);
+                mensagem.addEventListener('animationend',function () {
+                    this.remove();
+                })
+            }
         }
 
-
-
     })
-})()
+})();
